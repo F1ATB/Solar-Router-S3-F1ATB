@@ -1,0 +1,367 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="/JS_Commun.js"></script>
+  <link rel="stylesheet" href="/CommunCSS.css">
+
+  <style>
+    :root {
+      
+
+      /* Couleurs Actions */
+      --act-Bact: 8px inset azure;
+      --act-svg1: #0b0b0c;
+      --act-svg2: #20272c;
+      --act-svg3: #0a0a0c;
+      --act-svgborder: inset 4px rgb(164, 165, 165);
+      --act-svgRadius: 10px;
+      --act-boxborder: 1px solid #ccc;
+      --act-boxborRad: 6px;
+      --act-boxBackGrd: rgb(27, 27, 80);
+      --act-infobackground: rgb(129, 128, 128);
+      --act-infoborder: 4px inset rgb(117, 117, 117);
+      --act-inforadius: 10px;
+      --act-infoshadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      --act-infocolor:black;
+      --act-lignenum:rgb(65, 138, 247);
+      --act-lignebin:rgb(208, 224, 136);
+      --act-svgtxt:black;
+      --act-svgtxtOut:white;
+      --act-coulDef:#2dadc4;
+      --act-coulBin:rgb(71, 199, 71);
+      --act-coulAct:#cca;
+      --act-coulNum:rgb(190, 192, 43);
+      --act-coulLig:#eee;
+      --act-CoulLab:#3fe6d8;
+      --act-CoulNum:rgb(203, 231, 75);
+      --act-CoulAct:rgb(226, 148, 46);
+      --act-CoulBor:grey;
+      --act-CoulTxt:black;
+      --act-CoulAcT:#ddb;
+      --act-CoulNon:#dfd;
+      --act-CoulLin:rgb(88, 207, 88);
+      --act-CoulStr:grey;
+      --act-CoulBrd:black;
+      --act-coulSel:white;
+      --act-coulSeb:#112;
+      --act-bordRad:3px;
+      --act-modeRad:3px;
+      --act-PID-W: #f00;
+      --act-PID-Ouvre: #0f0;
+      --act-PID-Retard: rgb(72, 117, 241);
+      --act-PID-T: #288;
+      --act-PID-P: rgb(67, 192, 201);
+      --act-PID-I: rgb(93, 127, 161);
+      --act-PID-D: rgb(41, 126, 86);
+    }
+    body {width:100%;max-width:none;}
+    .Bactions {
+      border: 8px inset azure;
+    }
+
+    h4 {
+      padding: 2px;
+      margin: 0px;
+    }
+
+    h5 {
+      text-align: left;
+      padding: 2px;
+      margin: 0px;
+    }
+
+    .act_cadre {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .box {
+      margin: 10px;
+      padding: 10px;
+      border: var(--act-boxborder);
+      border-radius: var(--act-boxborRad);
+      background: var(--act-boxBackGrd);
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    svg {
+      border: var(--act-svgborder);
+      border-radius: var(--act-svgRadius);
+      margin: 10px;
+      touch-action: none;
+      background:linear-gradient(to bottom, var(--act-svg1), var(--act-svg2), var(--act-svg3));
+
+    }
+
+    #info {
+      position: absolute;
+      display: none;
+      min-width: 180px;
+      padding: 10px;
+      background: var(--act-infobackground);
+      border:  var(--act-infoborder);
+      border-radius: var(--act-inforadius);
+      box-shadow: var(--act-infoshadow);
+      color: var(--act-infocolor);
+      pointer-events: auto;
+      text-wrap: nowrap;
+    }
+     .pauseSVG {
+            position: absolute; bottom: 18px; right: 70px;
+            cursor: pointer; border: 2px outset grey;
+            background-color: white; width: 25px; height: 30px;
+            text-align: center;
+            color: black;
+        }
+
+
+    .poubelle {
+      cursor: pointer;
+      font-size: 30px;
+    }
+
+    .paraB,
+    #paraGPIO,
+    #paraVolt,
+    #paraTempo,
+    #paraMax,
+    #paraForce,
+    #paraSeuilPW_On,
+    #paraSeuilPW_Off,
+    #paraPID,
+    #paraP,
+    #paraI,
+    #paraD,
+    #paraHost,
+    #paraPort,
+    #paraGetPost,
+    #paraOrdreOn,
+    #paraOrdreOff,
+    #paraRepetition {
+      display: table-row;
+
+    }
+
+    .tcL {
+      display: table-cell;
+      text-align: left;
+      margin: 2px;
+
+    }
+
+    .tcR {
+      display: table-cell;
+      text-align: right;
+      margin: 2px;
+    }
+
+    .tcR input,
+    .tcR select {
+      width: 100px;
+      text-align: right;
+      margin: 2px;
+    }
+
+    select,
+    input {
+      color: var(--act-coulSel);
+      background: var(--act-coulSeb);
+    }
+    #groupePuissance,#groupeTemperature {
+      display: none;
+    }
+    .act_Pwm {
+      display:flex; justify-content:space-around;
+      font-size:20px;  padding:3px;
+    }
+    #paraCourbesPID{
+      position:absolute;
+      top:200px;
+       left:0px;
+      display: block;
+    }
+    
+    #CACSI, #Freq_PWM {
+      width: 100%; position: relative; margin: 4px; margin-bottom: 10px;
+      padding: 2px; border: 2px inset grey;
+      background-color:rgba(30,30,30,0.8);
+      color: white; border-radius: 10px;
+      display:none;
+    }
+    #commun { display: none; }
+  </style>
+  <link rel="stylesheet" href="/ThemeCSS.css"> 
+  
+  <title>Actions</title>
+  
+</head>
+
+<body onLoad="Init();" onmouseup="mouseClick=false;">
+  <div class="act_cadre">
+    <div id="lesOnglets"></div>
+    <h4>Logigramme des Actions </h4>
+  </div>
+  <div id="message"></div><br>
+
+
+ <div class="flex-container">
+    <div class="box">
+      <label for="Capteur">Capteur : </label>
+      <select id="Capteur" onchange="CreationBloc(this)">
+        <option value=""></option>
+        <optgroup label="Puissance" id="groupePuissance">
+          <option value="puissance1" data-type="puissance">⚡Puissance 1</option>
+          <option value="puissance2" data-type="puissance">⚡Puissance 2</option>
+        </optgroup>
+        <optgroup label="Heure">
+          <option value="heure" data-type="heure">🕒Heure</option>
+        </optgroup>
+        <optgroup label="Ensoleillement">
+          <option value="actuel" data-type="soleil">🌤️Actuel</option>
+          <option value="jourJ" data-type="soleil">🌤️Jour J</option>
+          <option value="demain" data-type="soleil">🌤️Jour J+1</option>
+        </optgroup>
+        <optgroup label="Température" id="groupeTemperature">
+          <option value="temperature1" data-type="temperature">🌡️Temperature 1</option>
+          <option value="temperature2" data-type="temperature">🌡️Temperature 2</option>
+        </optgroup>
+        <optgroup label="Tempo">
+          <option value="tempo_bleu" data-type="tempo">🔵Bleu</option>
+          <option value="tempo_blanc" data-type="tempo">⚪Blanc</option>
+          <option value="tempo_rouge" data-type="tempo">🔴Rouge</option>
+        </optgroup>
+        <optgroup label="HP / HC">
+          <option value="HP" data-type="hphc">☀️HP</option>
+          <option value="HC" data-type="hphc">🌙HC</option>
+        </optgroup>
+        <optgroup label="Actions Routeurs Externes" id="groupeActionsExternes" style="display:none;">
+          
+        </optgroup>
+        <optgroup label="Commandes Externes">
+          <option value="gpio" data-type="commande">📥Entrée GPIO</option>
+          <option value="mqttbin" data-type="commande">📥Entrée MQTT bin</option>
+          <option value="mqttnum" data-type="commande">📥Entrée MQTT num.</option>
+        </optgroup>
+        <optgroup label="Jour">
+          <option value="lundi" data-type="jour">📅Lundi</option>
+          <option value="mardi" data-type="jour">📅Mardi</option>
+          <option value="mercredi" data-type="jour">📅Mercredi</option>
+          <option value="jeudi" data-type="jour">📅Jeudi</option>
+          <option value="vendredi" data-type="jour">📅Vendredi</option>
+          <option value="samedi" data-type="jour">📅Samedi</option>
+          <option value="dimanche" data-type="jour">📅Dimanche</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="box">
+      <label for="Filtre">Filtre : </label>
+      <select id="Filtre" onchange="CreationBloc(this)">
+        <option value=""></option>
+        <optgroup label="Comparateurs">
+          <option value="sup" data-type="filtre">&gt;</option>
+          <option value="sup_egal" data-type="filtre">≥</option>
+          <option value="inf" data-type="filtre">&lt;</option>
+          <option value="inf_egal" data-type="filtre">≤</option>
+        </optgroup>
+        <optgroup label="Filtres">
+          <option value="retard" data-type="filtre">⏳Retard</option>
+          <option value="moyenne" data-type="filtre">📈Moyenne</option>
+          <option value="timer" data-type="filtre">⏱️Timer</option>
+        </optgroup>
+        <optgroup label="Additionneurs">
+          <option value="addition" data-type="addsub">➕Addition</option>
+          <option value="soustraction" data-type="addsub">➖Soustraction</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="box">
+      <label for="Logique">Logique : </label>
+      <select id="Logique" onchange="CreationBloc(this)">
+        <option value=""></option>
+        <option value="et" data-type="bin">ET</option>
+        <option value="ou" data-type="bin">OU</option>
+        <option value="ou_ex" data-type="bin">OU exclusif</option>
+        <option value="non" data-type="bin">NON</option>
+        <option value="bascule" data-type="bin">Bascule Flip-Flop</option>
+      </select>
+    </div>
+    <div class="box">
+      <label for="Actionneur">Actionneur : </label>
+      <select id="Actionneur" onchange="CreationBloc(this)">
+        <option value=""></option>
+        <option value="triac" data-type="action">Triac</option>
+        <option value="ssr" data-type="action">SSR</option>
+      </select>
+    </div>
+  </div>
+  <div id="zone">
+    <svg id="svg-canvas" viewBox="0 0 500 150">
+
+    </svg>
+    
+
+
+  </div>
+  <div id="commun" class="act_cadre">
+            <br>
+            <h4>Paramètres communs aux Actions</h4>
+
+            <div id="CACSI">
+                <div>
+                    Réactivité (I) si CACSI
+                    <span class="fsize10">
+                        Augmentée pour les valeurs de puissance inférieures au seuil Pw.  
+                        Pour tous les SSR ou Triac.
+                    </span>
+                </div>
+                    <div class="act_Pwm">
+                        <div><input type="radio" name="ReacCACSI" id="CACSI1" value="1" checked>Pas d'augmentation</div>
+                        <div><input type="radio" name="ReacCACSI" id="CACSI2" value="2">Réactivité x 2</div>
+                        <div><input type="radio" name="ReacCACSI" id="CACSI4" value="4">Réactivité x 4</div>
+                        <div><input type="radio" name="ReacCACSI" id="CACSI8" value="8">Réactivité x 8</div>
+                    </div>                
+            </div>
+
+            <div id="Freq_PWM">
+                <div>
+                    Fréquence signaux PWM 
+                    <span class="fsize10">Nécessite un Restart de l'ESP32</span>
+                </div>
+                    <div class="act_Pwm">
+                        <div><input type="radio" name="Fpwm" id="Fpwm5" value="5">5 Hz</div> 
+                        <div><input type="radio" name="Fpwm" id="Fpwm50" value="50">50 Hz</div>                              
+                        <div><input type="radio" name="Fpwm" id="Fpwm500" value="500" checked>500 Hz</div>                     
+                        <div><input type="radio" name="Fpwm" id="Fpwm5000" value="5000">5000 Hz</div>                                        
+                        <div><input type="radio" name="Fpwm" id="Fpwm50000" value="50000">50000 Hz</div>                       
+                    </div>
+            </div>
+        </div>
+  
+  <div class="act_cadre">
+    <div id="BoutonsBas">
+      <input class="bouton" type="button" onclick="SendValues();" value="Sauvegarder">
+      <div class="lds-dual-ring" id="attente"></div>
+      <input class="bouton" type="button" onclick="Reset();" value="ESP32 Reset">
+    </div>
+  </div>
+  
+  <div id="pied"></div>
+  <div id="info"></div>
+  <div id="paraCourbesPID"></div>
+ 
+  <script src="/JS_Actions/JS_Action.js"></script>
+  <script src="/JS_Actions/JS_boolean.js"></script>
+  <script src="/JS_Actions/JS_paraBloc.js"></script>
+ 
+</body>
+
+</html>

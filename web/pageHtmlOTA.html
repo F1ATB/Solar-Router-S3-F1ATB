@@ -1,0 +1,141 @@
+<!--  
+//***************************************************
+// Page HTML et Javascript mise à jour du code par OTA
+//***************************************************
+-->
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="/JS_Commun.js"></script>
+  <link rel="stylesheet" href="/CommunCSS.css">
+  <style>
+    input {
+      font-size: 20px;
+    }
+    .Zone {
+      width: 100%;
+      border: 1px solid grey;
+      border-radius: 10px;
+      margin-top: 10px;
+      background-color: rgba(30, 30, 30, 0.8);
+    }
+    .liste {
+      text-align: center;
+      margin:2px;
+    }
+    ul{
+      margin: 0;
+      padding: 10px;
+      list-style-position: inside;
+      text-align: left;
+    }
+    li {
+      margin: 5px 0;
+    }
+
+
+    #onglets2 {
+      display: block;
+    }
+
+    .Bparametres {
+      border: inset 10px azure;
+    }
+
+    .Bota {
+      border: inset 4px azure;
+    }
+
+    
+  </style>
+  <link rel="stylesheet" href="/ThemeCSS.css">
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+
+</head>
+
+<body onload="Init();">
+  <div id='lesOnglets'></div>
+  <h2>Web OTA</h2>
+  <br>
+  <h4>Mise à jour du firmware par Wifi ou Ethernet</h4>
+  <div class="liste">
+    Votre version actuelle du routeur : <span id="Version_actu"></span>
+  </div>
+  <br>
+  <div class="liste">
+    Version(s) disponible(s) :
+  </div>
+  <div class="liste">
+    <iframe src="https://f1atb.fr/web_tool_RMS_S3/scan_dir_bin.php" width=50% height=150px></iframe>
+  </div>
+  <div class="Zone">
+    <div class="liste">
+      <ul>
+        <li>1 - <a href='/pageHtmlExport.html'>Sauvegardez, par sécurité, vos paramètres</a> sur votre ordinateur.</li>
+        <li>2 - Téléchargez sur votre ordinateur, la version binaire du logiciel du routeur souhaitée
+          <br>(RMS_S3_F1ATB_Vxx.xx.bin) en cliquant dessus</li>
+        <li>3 - Cliquez sur "Choisir un fichier" et sélectionnez ce binaire sur votre ordinateur</li>
+        <li>4 - Cliquez sur "Mettre à jour"</li>
+        <li>5 - <a href='/pageHtmlExport.html'>Importez si besoin vos anciens paramètres</a> du PC </li>
+      </ul>
+    </div>
+    <form method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
+      <input type='file' name='update' id="fichier">
+      <input class='bouton' type='submit' value='Mettre à jour'>
+    </form>
+    <div id='prg'>progression: 0%</div>
+  </div>
+  <script>
+    $('form').submit(function (e) {
+      e.preventDefault();
+      var form = $('#upload_form')[0];
+      var data = new FormData(form);
+
+      $.ajax({
+        url: '/update',
+        type: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+        xhr: function () {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener('progress', function (evt) {
+            if (evt.lengthComputable) {
+              var per = evt.loaded / evt.total;
+              $('#prg').html('progression: ' + Math.round(per * 100) + '%');
+            }
+          }, false);
+          return xhr;
+        },
+        success: function (d, s) {
+          console.log('succès!')
+
+        },
+        error: function (a, b, c) {
+        }
+      });
+    });
+    function Init() {
+      LoadConfig();
+
+    }
+    function ImplantationConfig() {
+      SetHautBas();
+      GH("Version_actu",C.Version);
+
+    }
+    
+    
+  </script>
+  <br>
+  <small>Après une mise à jour un reset de l'ESP32 et un Ctrl+F5 pour vider le cache du navigateur sont
+    recommandés.</small>
+  <div id='pied'></div>
+  <br>
+
+
+</body>
+
+</html>

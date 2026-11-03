@@ -1,0 +1,60 @@
+* {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+   
+
+    body {font-size:120%;text-align:center;width:100%;max-width:1000px;margin:auto;padding:10px;
+      background:linear-gradient(#000033, #77b5fe,#000033);
+      background-attachment:fixed;
+      color:white;
+      font-family: Arial;
+    }
+    a:link {color:rgb(173, 173, 238);text-decoration: none;}
+    a:visited {color:rgb(173, 173, 238);text-decoration: none;}
+    .onglets{margin-top:4px;left:0px;font-size:130%;}
+    #onglets2{margin-top:10px;left:0px;font-size:80%;display:none;}
+    .dispNone{display:none;}
+    .Bonglet{margin-left:20px;border:4px outset grey;background:#333;border-radius:6px;padding-left:20px;padding-right:20px;display:inline-block;}
+    .Bonglet2{margin-left:20px;border:2px outset grey;background:#333;border-radius:4px;padding-left:20px;padding-right:20px;display:inline-block;}
+    #pied{display:flex;justify-content:space-between;font-size:14px;}
+    .fsize12{font-size:12px;height:16px;}
+    .fsize10{font-size:10px;height:14px;}
+    .fsize8{font-size:8px;}
+    .tableau { background-color:white;display:inline-block;margin:auto;padding:4px;color:black;border:2px inset grey;border-radius:10px;}
+    table{border-collapse:collapse;}
+    .lds-dual-ring {color: #cccc5b;visibility: hidden;}
+    .lds-dual-ring,.lds-dual-ring:after {box-sizing: border-box;}
+    .lds-dual-ring {display: inline-block;width: 80px;height: 80px;}
+    .lds-dual-ring:after {content: " ";display: block;width: 64px;height: 64px;margin: 8px;border-radius: 50%;border:
+    6.4px solid currentColor;border-color: currentColor transparent currentColor transparent;animation: lds-dual-ring
+    1.2s linear infinite;}
+    @keyframes lds-dual-ring {0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);}}
+    .bouton,input[type=file]::file-selector-button{margin: 5px;text-align:left;font-size:20px;height:28px;border:3px outset grey;border-radius:7px;cursor:pointer;}
+    .w100{width:100%;}
+    .Wh { background-color:yellow; }
+    .W { background-color:red; }
+    .VA { background-color:cyan; }
+    .deg { background-color:magenta; }
+    .temper { background-color:green; }
+    .A { background-color:lightblue;}
+    .V { background-color:lightyellow;}
+    #nom_R,#date{
+      margin:10px;
+    }
+    
+
+     #LED {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 0px;
+      height: 0px;
+      border: 5px solid red;
+      border-radius: 5px;
+    }
+
+    .L{text-align:left;}
+    .C{text-align:center;}
+    .R{text-align:right;}

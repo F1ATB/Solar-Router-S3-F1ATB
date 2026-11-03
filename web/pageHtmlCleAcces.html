@@ -1,0 +1,75 @@
+//*******************************************************************
+//Page HTML pour les paramètres de clé d'accès
+//*******************************************************************
+
+  <!doctype html>
+  <html><head><meta charset="UTF-8">
+ 
+  <link rel="stylesheet" href="/CommunCSS.css">  
+  <style>    
+    body{color:white;}
+    .form {margin:auto;padding:10px;display: table;text-align:left;width:100%;}
+    .ligne {display: table-row;padding:10px;}
+    .cadre {border-top:1px solid azure;}
+    label,.nomR{display: table-cell;margin: 5px;text-align:left;font-size:20px;height:25px;width:70%;}
+    input{display: table-cell;margin: 5px;text-align:left;font-size:20px;height:25px;}
+    .boldT{text-align:left;font-weight:bold;padding:10px;}   
+    .Bparametres{border:inset 10px azure;}
+    .Bgeneraux{border:inset 4px azure;}
+    #BoutonsBas{text-align:center;}    
+    .Zone{width:100%;border: 1px solid grey;border-radius:10px;margin-top:10px;background-color:rgba(30,30,30,0.3);} 
+    #onglets2{display:none;} 
+  </style>
+  <link rel="stylesheet" href="/ThemeCSS">
+  <script>
+   
+    function SendCle(){
+        document.cookie="CleAcces=" + GID("CleAcces").value.trim() ;
+        
+        GID("attente").style="visibility: visible;";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() { 
+          if (this.readyState == 4 && this.status == 200) {
+            var retour=this.responseText;
+            location.reload();
+          }         
+        };
+        xhttp.open('GET', 'CleUpdate', true);
+        xhttp.send(); 
+    }
+    function init(){
+      LoadConfig();      
+      document.cookie="CleAcces=" + GID("CleAcces").value.trim() ;
+    }
+    function   AdaptationSource(){}  ;
+    function FinParaRouteur(){};
+     function ImplantationConfig(){
+          SetHautBas();
+          LoadParaRouteur();
+         
+      }
+  </script>
+  
+  </head>
+  <body onload="init();">
+    <div id="lesOnglets"></div>
+    <h4>Mot de passe d'accès</h4>
+    <div class="Zone" >
+        <div class="boldT" >Sécurité d'accès aux paramètres et Actions</div>
+        <div class="form"  >    
+          <div class='ligne'>
+            <label for='CleAcces'>Entrez le mot de passe d'accès : </label>
+            <input type='text' name='CleAcces' id='CleAcces'>
+          </div>
+        </div>
+    </div>
+    <div  id='BoutonsBas'>        
+        <br><input  class='bouton' type='button' onclick="SendCle();" value='Envoyer' >
+        <div class="lds-dual-ring" id="attente"></div>
+    </div>
+    <br>
+    <div id='pied'></div>
+     
+    <script src="/ParaRouteurJS"></script>
+    
+   </body></html>

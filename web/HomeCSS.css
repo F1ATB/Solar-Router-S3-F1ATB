@@ -1,0 +1,437 @@
+:root {
+
+            /* Couleurs SVGs Soleil*/
+            --hom-solaxes: white;
+            --hom-solcourbeJ: yellow;
+            --hom-solcourbeJ1: orange;
+            --hom-sollabel: white;
+            --hom-solactuel: lime;
+
+            /* Couleurs SVGs Historique*/
+            --hom-histaxes: white;
+            --hom-histlabel: white;
+
+
+
+
+        }
+
+        body {
+            user-select: none;
+            /* Évite la sélection de texte pendant le glissement */
+        }
+
+        #infoCurseur {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 1001;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        /*Pour l'affichage conditionnel des éléments d'édition */
+        .edit {
+            display: none;
+        }
+
+        .showBlock {
+            display: block;
+        }
+
+        .showInline {
+            display: inline;
+        }
+
+        /* Conteneur principal en grille CSS de nbColonnes colonnes */
+        #hom-zonesContainer {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 80vh;
+            align-content: start;
+        }
+
+        /* Style des cartes / zones <div> */
+        .hom-card-title {
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .hom-card {
+            position: relative;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(250, 2500, 250, 0.3);
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: grab;
+            touch-action:none;
+            /* Prévient le défilement de la page lors du glissement sur mobile */
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s ease;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .hom-card:active {
+            cursor: grabbing;
+        }
+
+        /* Largeurs relatives */
+        .span-1 {
+            grid-column: span 1;
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .span-3 {
+            grid-column: span 3;
+        }
+
+        .span-4 {
+            grid-column: span 4;
+        }
+
+        .span-1,
+        .span-2,
+        .span-3,
+        .span-4 {
+            height: fit-content;
+        }
+
+        /* Style pendant le déplacement */
+        .hom-card.dragging {
+            opacity: 0.4;
+            transform: scale(0.98);
+        }
+
+        .hom-card.drag-over {
+            outline: 3px dashed #ffffff;
+            outline-offset: -5px;
+        }
+
+        /* Style spécifique au clone volant sur tactile */
+        .touch-clone {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.85;
+            transform: scale(0.9);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+        }
+
+        .hom-card-contenu {
+            min-height: 50px;
+            min-width: 50px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        /* Adaptabilité mobile */
+        @media (max-width: 768px) {
+            body{
+                padding:30px;
+            }
+            #hom-zonesContainer {
+                grid-template-columns: 1fr;
+            }
+
+            .span-1,
+            .span-2,
+            .span-3,
+            .span-4 {
+                grid-column: span 1;
+            }
+        }
+
+        #hom-zoneBoutonEdit {
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #hom-zoneEditPage {
+            display: flex;
+            justify-content: space-around;
+
+            padding: 20px;
+            margin: auto;
+            margin-bottom: 20px;
+            max-width: 1400px;
+        }
+
+        .hom-boxEdit {
+            border-radius: 12px;
+            border: 2px dotted rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .hom-boxZone {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+        }
+
+        .hom-modifLargeur {
+            display: flex;
+            justify-content: center;
+
+            font-size: 80%;
+
+        }
+
+        .hom-modifLargeur>div:nth-child(2),
+        .hom-modifLargeur>div:nth-child(4) {
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+        }
+
+        .hom-removeZone {
+            cursor: pointer;
+            text-align: center;
+        }
+
+
+        .hom-LeTableau {
+            display: grid;
+            grid-template-columns: auto 80px;
+            padding: 10px;
+            color: black;
+            border: 2px inset grey;
+            border-radius: 10px;
+            background-color: rgba(30, 30, 30, 0.3);
+            white-space: nowrap;
+        }
+
+        .hom-LeTableau>div {
+            margin-top: 2px;
+            margin-bottom: 2px;
+
+        }
+
+        .grid-contColTitre {
+            display: grid;
+            grid-template-columns: auto;
+            grid-gap: 2px;
+            padding: 0px;
+
+        }
+
+        .grid-contColTitre>div {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .grid-Titre1 {
+            position: relative;
+        }
+
+        .grid-contColUnite {
+            display: grid;
+            grid-template-columns: auto;
+            grid-gap: 2px;
+            padding: 0px;
+            margin-left: 4px;
+            max-width: 80px;
+        }
+
+        .grid-contColUnite>div {
+            padding: 10px;
+            text-align: Center;
+        }
+
+        .hom-tempo {
+            width: 100px;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            display: block;
+            position: absolute;
+            font-size: 10px;
+            text-align: center;
+            line-height: 90%;
+        }
+
+        .grid-contColCanal {
+            display: grid;
+            grid-gap: 2px;
+            padding: 0px;
+            margin-left: 4px;
+        }
+
+        .grid-contColCanal>div {
+            padding: 10px;
+        }
+
+        .grid-Canal_SouI {
+            /* Soutirée ou Injectée */
+            grid-template-columns: auto;
+        }
+
+        .grid-Canal_SetI {
+            /* Soutirée et Injectée */
+            grid-template-columns: auto auto;
+        }
+
+        .grid-NomCanal-1 {
+            background-color: rgba(62, 194, 247, 0.5);
+            font-weight: bold;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .grid-NomCanal-2 {
+            background-color: rgba(62, 194, 247, 0.5);
+            font-weight: bold;
+            text-align: center;
+            grid-column: 1 / span 2;
+            overflow: hidden;
+        }
+
+        /* Style pour le SVG du graphique d'ensoleillement */
+        .hom-soleil-edit {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .hom-SoleilSVG {
+            border: 1px solid grey;
+            border-radius: 4px;
+            margin: 0px;
+            touch-action:none;
+            background: linear-gradient(to bottom, #000033 0%, #5555bb 60%, #000099 100%);
+
+        }
+
+        /* Style pour le SVG du graphique historique */
+        .hom-graphPw-T {
+            display: block;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .hom-graphPw-edit {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .hom-graphPw-flex {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            padding: 10px;
+        }
+
+
+        .hom-graphPw-table td {
+            border: none;
+            padding: 5px;
+        }
+
+        .hom-graphPw-color {
+            width: 30px;
+            height: 20px;
+            border: 1px solid #888;
+            box-sizing: border-box;
+        }
+
+        .hom-graphPwSVG {
+            border: 1px solid grey;
+            border-radius: 4px;
+            margin: 0px;
+            touch-action:none;
+            background: linear-gradient(to bottom, #222222 0%, #444444 50%, #222222 100%);
+        }
+
+        /* Style pour le tableau ouvertures */
+        .hom-Tableau_Ouvertures {
+            color: white;
+            width: 100%;
+            background-color: #202020;
+            font-size: 80%;
+        }
+
+        .hom-Tableau_Ouvertures td,
+        .hom-Tableau_Ouvertures th {
+            border: 1px solid grey;
+            padding: 8px;
+        }
+
+        /* Style pour le SVG du graphique Energie */
+        .hom-graphEn-T {
+            display: block;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .hom-graphEnSVG {
+            border: 1px solid grey;
+            border-radius: 4px;
+            margin: 0px;
+            touch-action:none;
+            background: linear-gradient(to bottom, #222222 0%, #444444 50%, #222222 100%);
+        }
+
+        .hom-graphEn-2T {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .hom-graphEn-J {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            gap: 4px;
+        }
+
+        .hom-graphEn-J label {
+            margin-right: 10px;
+        }
+
+        .hom-graphEn-table td {
+            border: none;
+            padding: 5px;
+        }
+         /* SVG GAUGE */
+        .zoneJauge {
+            fill: none;
+            stroke-width: 50;
+        }
+         .aiguilleG {
+            fill: white;
+        }
+        .val-seuilJ {
+            text-align: right;
+            font-size:10px;
+            vertical-align: bottom;
+        }
+        .hom-tab-Jauge div {
+            padding: 4px;
+            text-align: right;
+        }
+        .hom-tab-Jauge  input {
+            max-width: 70px;
+            text-align: right;
+        }

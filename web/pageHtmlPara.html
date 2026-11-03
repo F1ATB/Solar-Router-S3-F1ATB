@@ -1,0 +1,539 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="/JS_Commun.js"></script>
+  <link rel="stylesheet" href="/CommunCSS.css">
+  <style>
+    .form {
+      margin: auto;
+      padding: 5px;
+      display: table;
+      text-align: left;
+      width: 100%;
+    }
+
+    .form2 {
+      margin: 2px;
+      padding: 2px;
+      display: block;
+      width: 100%;
+    }
+
+    .ligne {
+      display: table-row;
+      padding: 10px;
+    }
+
+    .ligne2 {
+      display: none;
+      padding: 10px;
+    }
+
+    .ligne3 {
+      display: flex;
+      justify-content: center;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .ligneIB33 {
+      display: inline-block;
+      width: 33%;
+    }
+
+    .cadre {
+      border-top: 1px solid azure;
+    }
+
+    .canalT {
+      display: table;
+    }
+
+    .canalTr {
+      display: table-row;
+      width: 100%;
+    }
+
+    .canalTc {
+      display: table-cell;
+      padding: 1px;
+      text-align: center;
+      width: 100%;
+      font-size: 12px;
+    }
+
+    label,
+    .nomR {
+      display: table-cell;
+      margin: 5px;
+      text-align: left;
+      font-size: 20px;
+      height: 25px;
+      width: 60%;
+    }
+
+    input {
+      display: table-cell;
+      margin: 5px;
+      text-align: left;
+      font-size: 20px;
+      height: 25px;
+    }
+
+    select {
+      display: table-cell;
+      margin: 5px;
+      text-align: left;
+      font-size: 20px;
+      height: 25px;
+    }
+
+    .source label {
+      display: table-cell;
+      margin: 5px;
+      text-align: left;
+      font-size: 12px;
+      height: 21px;
+      width: initial;
+    }
+
+    .boldT {
+      text-align: left;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .Bparametres {
+      border: inset 10px azure;
+    }
+
+    .Bgeneraux {
+      border: inset 4px azure;
+    }
+
+    #BoutonsBas {
+      text-align: center;
+    }
+
+    #ligneFixe,
+    .ligneTemperature,
+    #ligneExt,
+    #infoIP,
+    #ligneTopicP,
+    #ligneTopicT {
+      display: none;
+    }
+
+    .Zone,
+    .generaux {
+      width: 100%;
+      border: 4px inset grey;;
+      border-radius: 10px;
+      margin-top: 10px;
+      background-color:rgba(30,30,30,0.8);
+    }
+
+    #onglets2 {
+      display: block;
+    }
+
+    .don {
+      height: 50px;
+      display: block;
+      text-align: center;
+    }
+
+    #donEnv {
+      display: inline-block;
+      text-align: center;
+      border: azure 3px outset;
+      border-radius: 18px;
+      background-color: white;
+    }
+
+    .dispNone {
+      display: none;
+    }
+
+    .generaux {
+      width: 60%;
+      text-align: center;
+      margin: auto;
+    }
+
+    .generaux label {
+      width: 30%;
+    }
+
+    .fsize150 {
+      font-size: 140%;
+    }
+
+    .topG {
+      display: flex;
+      justify-content: center;
+    }
+
+    .shem {
+      font-size: 12px;
+      display: flex;
+    }
+
+    .TC {
+      display: table-cell;
+    }
+
+    .TCc {
+      display: table-cell;
+      cursor: pointer;
+      text-align:left;
+    }
+
+    .titreS {
+      display: table-cell;
+      margin: 5px;
+      text-align: left;
+      font-size: 20px;
+      height: 25px;
+      font-weight: bold;
+    }
+
+    .enphW100 {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    #Routeur_local {
+      background-color: #333;
+    }
+  </style>
+  <link rel="stylesheet" href="/ThemeCSS.css">
+  <title>Paramètres généraux</title>
+</head>
+
+<body onLoad="Init();">
+  <div id="lesOnglets"></div>
+  <div class="generaux">
+    <div class="fsize150">Paramètres généraux</div>
+    <div class="topG">
+      <label for="ModeP0" style="text-align:right;">Mode standard</label>
+      <input type="radio" name="ModeP" id="ModeP0" value="0" checked onclick="checkDisabled();">
+      <label for="ModeP1" style="text-align:right;">Mode expert</label>
+      <input type="radio" name="ModeP" id="ModeP1" value="1" onclick="checkDisabled();">
+    </div>
+  </div>
+  <div class="Zone">
+    <div class="boldT">Routeur</div>
+    <div class="form">
+      <div class="ligne">
+        <label for="nomRouteur">Nom du routeur : </label>
+        <input type="text" name="nomRouteur" id="nomRouteur">
+      </div>
+      <div class="ligne">
+        <label for="Horlo">Horloge du routeur</label>
+        <select id="Horlo" onclick="checkDisabled();"
+          title="Internet de préférence pour executer les actions planifiées.">
+          <option value="0" selected>Internet</option>
+          <option value="1">Linky</option>
+          <option value="2">Interne</option>
+          <option value="3">IT 10ms/100Hz (Triac)</option>
+          <option value="4">IT 20ms/50Hz</option>
+          <option value="5">ESP externe</option>
+        </select>
+      </div>
+      <div class="ligne" id="l_wifi_0">
+        <label for="TempoRTEon">Affichage couleur Tempo RTE : </label>
+        <input type="checkbox" name="TempoRTEon" id="TempoRTEon" style="width:25px;"><span class="fsize10">Nécessite un
+          Reset de l'ESP32</span>
+      </div>
+      <div class="ligne" id="l_wifi_1">
+        <label for="MQTTRepete">Puissances et températures envoyées au serveur MQTT<br>Période (s) répétition (0= pas
+          d'envoi) : </label>
+        <input type="number" name="MQTTRepete" id="MQTTRepete" onclick="checkDisabled();">
+      </div>
+      <div class="ligne" id="l_wifi_2">
+        <label for="WifiSleep">Wifi Sleep/veille <small>(réduit la consommation mais ralenti la communication)</small>:
+        </label>
+        <input type="checkbox" name="WifiSleep" id="WifiSleep" style="width:25px;"><span class="fsize10">Nécessite un
+          Reset de l'ESP32</span>
+      </div>
+      <div class="ligne">
+        <label for="RAZdata">Remise à zéro historique des mesures</label>
+        <input id="RAZdata" class="bouton" type="button" onclick="SendRAZ();" value="RAZ">
+      </div>
+    </div>
+    <div>Configuration matérielle <span class="fsize10">Nécessite un Reset de l'ESP32</span></div>
+    <div class="form">
+      <div class="ligne">
+        <label for="ESP">Modèle carte ESP32-S3</label>
+        <select id="ESP" onclick="checkDisabled();" title="Carte à définir pour connaître les GPIOs disponibles.">
+          <option value="0" selected>Non défini</option>
+          <option value="1">Wroom seul</option>
+          <option value="2">Ecran 480*320 pixels</option>
+          <option value="10">T-ETH-Lite</option>
+        </select>
+      </div>
+      <div class="ligne" id="rotation">
+        <label for="Rot">Format écran</label>
+        <select id="Rot" onclick="checkDisabled();">
+          <option value="0" selected>Portrait (0°)</option>
+          <option value="1">Paysage (90°)</option>
+          <option value="2">Portrait (180°)</option>
+          <option value="3">Paysage (270°)</option>
+        </select>
+      </div>
+      <div class="ligne" id="dureeOn">
+        <label for="DurEcran">Durée écran On</label>
+        <select id="DurEcran" onclick="checkDisabled();">
+          <option value="10000" selected>10s</option>
+          <option value="30000">30s</option>
+          <option value="300000">5mn</option>
+          <option value="54000000">15h</option>
+          <option value="0">Toujours allumé</option>
+        </select>
+      </div>
+      <div class="ligne">
+        <label for="Serial1">Port série 1</label>
+        <select id="Serial1" onclick="checkDisabled();" title="Port série 1.">
+          <option value="0" selected>Non utilisé</option>
+          <option value="1">RX=gpio 18, TX=gpio 17</option>
+        </select>
+      </div>
+      <div class="ligne">
+        <label for="Serial2">Port série 2</label>
+        <select id="Serial2" onclick="checkDisabled();" title="Port série 2.">
+          <option value="0" selected>Non utilisé</option>
+          <option value="1">RX=gpio 6, TX=gpio 7</option>
+        </select>
+      </div>
+
+      <div class="ligne" id="Analog">
+        <label for="pUxI">GPIOs Entrées analogiques</label>
+        <select id="pUxI" onclick="checkDisabled();">
+          <option value="0" selected>Pas d'entrée</option>
+          <option value="1">Commun(5), U(6) , I(7)</option>
+        </select>
+      </div>
+      <div class="ligne">
+        <label for="pTriac">GPIOs Triac</label>
+        <select id="pTriac" onclick="checkDisabled();">
+          <option value="0" selected>Pas de triac</option>
+          <option value="1">Pulse=gpio 9, Zc=gpio 14</option>
+        </select>
+      </div>
+      <div class="ligne" id="p_Temp">
+        <label for="pTemp">Capteur(s) de température</label>
+        <select id="pTemp" onclick="checkDisabled();">
+          <option value="0" selected>Pas de capteur</option>
+          <option value="1">DS18B20 gpio 15</option>
+          <option value="2">DS18B20 gpio 21</option>
+          <option value="3">DS18B20 gpio 27</option>
+          <option value="4">DS18B20 gpio 33</option>
+        </select>
+      </div>
+      <div class="ligne">
+        <label for="pLED">Affichage LED / OLED</label>
+        <select id="pLED" onclick="checkDisabled();">
+          <option value="0" selected>Pas d'affichage</option>
+          <option value="1">LEDs gpio 15, gpio 16</option>
+          <option value="6">RGB LED gpio 48</option>
+          <option value="10">SSD1306/1309 sda/scl=gpio 15/16</option>
+          <option value="11">SH1106 OLED | sda/scl=gpio 15/16</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+  <div class="Zone">
+    <div class="boldT">Accès réseau et adresse IP de l'ESP32 du Routeur</div>
+    <div class="form">
+      <div class="ligne">
+        <label for="ModeW">Accès</label>
+        <select id="ModeW" onclick="checkDisabled();">
+          <option value="0" selected>Internet</option>
+          <option value="1">Réseau local uniquement</option>
+          <option value="2">Point isolé</option>
+        </select>
+      </div>
+
+      <div class="ligne">
+        <label for="dhcp">Adresse IP <span id="localIP"></span></label>
+        <input type="checkbox" name="dhcp" id="dhcp" style="width:25px;" onclick="checkDisabled();"><span id="ipreset"
+          class="fsize10">Nécessite un Reset de l'ESP32</span>
+      </div>
+    </div>
+    <div class="form" id="infoIP">
+      <div class="ligne">
+        <label for="adrIP">Adresse IP si fixe (ex : 192.168.1.245) <br><span class="fsize10">N&eacute;cessite un Reset
+            de l'ESP32</span></label>
+        <input type="text" name="adrIP" id="adrIP">
+      </div>
+      <div class="ligne">
+        <label for="gateway">Passerelle / Gateway (ex : 192.168.1.254)<br><span class="fsize10">En g&eacute;n&eacute;ral
+            l'adresse de votre box internet</span></label>
+        <input type="text" name="gateway" id="gateway">
+      </div>
+      <div class="ligne">
+        <label for="masque">Masque / Subnet (ex : 255.255.255.0)</label>
+        <input type="text" name="masque" id="masque">
+      </div>
+      <div class="ligne">
+        <label for="dns">DNS (ex : 192.168.1.254)<br><span class="fsize10">En g&eacute;n&eacute;ral l'adresse de votre
+            box internet</span></label>
+        <input type="text" name="dns" id="dns">
+      </div>
+    </div>
+    <div class="form" id="Hostname">
+      <div class="ligne">
+        <label for="hostname">Hostname<br><span class="fsize10"> Caractères (a-z et 0-9 et -)</span></label>
+        <input type="text" name="hostname" id="hostname">
+      </div>
+    </div>
+  </div>
+
+  <div class="Zone" id="SurvCom">
+    <div class="boldT">Surveillance Communications du Routeur <span class="fsize10"> Reset si coupure de : </span></div>
+    <div class="form">
+      <div class="ligne">
+        <label for="ComSurv">Reset si coupure Wifi ou Ethernet de</label>
+        <select id="ComSurv" onclick="checkDisabled();">
+          <option value="6" selected="">3mn</option>
+          <option value="60" selected="">30mn</option>
+          <option value="360" selected>3h</option>
+          <option value="1440">12h</option>
+          <option value="2880">24h</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="Zone" id="listerouteurs">
+    <div class="boldT">Liste des Routeurs en réseau </div>
+    <div class="form" id="Routeurs"></div>
+  </div>
+  <div class="Zone">
+    <div class="boldT">Sources des mesures de puissance</div>
+    <div class="form" id="liste_sources"> </div>
+    <div id="CACSI" class="form">
+      <div class="ligne">
+        <label for="EstimCACSI">Estimateur injection si CACSI: </label>
+        <input type="checkbox" name="EstimCACSI" id="EstimCACSI" style="width:25px;" onclick="checkDisabled();">
+      </div>
+    </div>
+  </div>
+  <div class="Zone" id="LesSourcesTemp">
+    <div class="boldT">Source des mesures de température</div>
+    <div class="form">
+      <div id="Sources_Temp"></div>
+    </div>
+  </div>
+
+  <div class="Zone" id="Zmqtt">
+    <div class="boldT">Paramètres serveur MQTT <small>(Home Assistant , Domoticz ...)</small></div>
+    <div class="form">
+      <div class="ligne">
+        <label for="MQTTIP">Adresse IP host MQTT (ex : 192.168.1.18) : </label>
+        <input class="w100" type="text" name="MQTTIP" id="MQTTIP"><div class="TCc"></div>
+      </div>
+      <div class="ligne">
+        <label for="MQTTPort"> port (ex : 1883) : </label>
+        <input class="w100" type="number" name="MQTTPort" id="MQTTPort"><div class="TCc"></div>
+      </div>
+      <div class="ligne">
+        <label for="MQTTUser">MQTT User nom : </label>
+        <input class="w100" type="text" name="MQTTUser" id="MQTTUser"><div class="TCc"></div>
+      </div>
+      <div class="ligne">
+        <label for="MQTTpwd">MQTT mot de passe : </label>
+        <input class="w100" type="password" name="MQTTpwd" id="MQTTpwd"><div class="TCc" onclick="visupwd(this.id,'MQTTpwd');" id="iconMqttPwd">👁️</div>
+      </div>
+    
+      <div class="ligne">
+        <label for="MQTTPrefix">MQTT Préfixe de découverte (1 seul mot ex : homeassistant ) : </label>
+        <input class="w100" type="text" name="MQTTPrefix" id="MQTTPrefix"><div class="TCc"></div>
+      </div>
+      <div class="ligne">
+        <label for="MQTTPrefixEtat">MQTT Préfixe de publication (1 seul mot ex : homeassistant ) : </label>
+        <input class="w100" type="text" name="MQTTPrefixEtat" id="MQTTPrefixEtat"><div class="TCc"></div>
+      </div>
+      <div class="ligne">
+        <label for="MQTTdeviceName">MQTT Device Name / Nom routeur (1 seul mot ex : routeur_rms ) : </label>
+        <input class="w100" type="text" name="MQTTdeviceName" id="MQTTdeviceName"><div class="TCc"></div>
+      </div>
+      <div class="ligne">
+        <label for="subMQTT">Souscrire au forçage des Actions via le serveur MQTT: </label>
+        <input class="w100" type="checkbox" name="subMQTT" id="subMQTT" style="width:25px;" onclick="checkDisabled();"><div class="TCc"></div>
+      </div>
+    </div>
+  </div>
+  <div class="Zone" id="Zcalib">
+    <div class="boldT" id="Tui">Calibration Mesures Ueff et Ieff <small>(UxI)</small></div>
+    <div class="form">
+      <div class="ligne" id="CUi">
+        <label for="CalibU">Coefficient multiplicateur Ueff (typique : 1000) : </label>
+        <input type="number" name="CalibU" id="CalibU">
+      </div>
+      <div class="ligne" id="CuI">
+        <label for="CalibI">Coefficient multiplicateur Ieff (typique : 1000) : </label>
+        <input type="number" name="CalibI" id="CalibI">
+      </div>
+    </div>
+  </div>
+  <div class="Zone">
+    <div class="boldT">Mise en page Web</div>
+    <div class="form">
+      <div class="ligne">
+        <label for="Theme">Thème</label>
+        <select id="Theme" ></select>
+      </div>
+    </div>
+  </div>
+  <div class="Zone" id="Localisation">
+    <div class="boldT">Localisation</div>
+    <div class="form">
+      <div class="ligne">
+        <label for="latitude">Latitude (° décimal) :</label>
+        <input type="text" name="latitude" id="latitude" value="48.8566">
+      </div>
+      <div class="ligne">
+        <label for="longitude">Longitude (° décimal) :</label>
+        <input type="text" name="longitude" id="longitude" value="2.3522">
+      </div>
+    </div>
+  </div>
+  <div class="Zone">
+    <div class="boldT">Sécurité d'accès aux paramètres et Actions</div>
+    <div class="form">
+      <div class="ligne">
+        <label for="CleAcces">Définissez un mot de passe d'accès <span class="fsize10">Pas de ";" Ne rien mettre si
+            accès libre</span> : </label>
+        <input type="text" name="CleAcces" id="CleAcces">
+      </div>
+    </div>
+  </div>
+  <div id="BoutonsBas">
+    <br><input class="bouton" type="button" onclick="sendConfig();" value="Sauvegarder">
+    <div class="lds-dual-ring" id="attente"></div>
+    <input class="bouton" type="button" onclick="Reset();" value="ESP32 Reset">
+  </div>
+  <br>
+  <div id="pied"></div>
+  <br>
+  <div id="donEnv">
+    <form action="https://www.paypal.com/donate" method="post" target="_top">
+      <input type="hidden" name="hosted_button_id" value="Z35E9D5D9N9DN">
+      <input class="don" type="image"
+        src="https://pics.paypal.com/00/s/MGY1NzdhY2YtYTRkNi00YzIwLWI2YzQtNWI3YjM3ZmFiNWUx/file.PNG" style="border:0px;"
+        name="submit" title="PayPal - The safer, easier way to pay online!" alt="Bouton Faites un don avec PayPal">
+      <img alt="" class="dispNone" style="border:0px;" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1"
+        height="1" />
+    </form>
+
+  </div>
+ 
+  <script src="/JS_Para.js"></script>
+
+</body>
+
+</html>

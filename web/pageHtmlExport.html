@@ -1,0 +1,144 @@
+<!--  
+//********************************************************
+// Page HTML et Javascript Import / Export configuration *
+//********************************************************
+-->
+
+
+  <!doctype html>
+  <html><head><meta charset="UTF-8">
+  <script src="/JS_Commun.js"></script>
+  <link rel="stylesheet" href="/CommunCSS.css">
+  <style>
+    .Zone{width:100%;border:1px solid grey;border-radius:10px;margin-top:10px;background-color:rgba(30,30,30,0.8);} 
+
+    .boldT{text-align:left;font-weight:bold;padding:10px;}
+    .pad10{padding:10px;}
+    .form {margin:auto;padding:10px;display: table;text-align:left;width:100%;}
+    .ligne {display: table-row;padding:10px;}
+    label{display: table-cell;margin: 5px;text-align:left;font-size:20px;height:25px;width:70%;}
+    input,.cell{display: table-cell;margin: 5px;text-align:left;font-size:20px;height:25px;}
+    input[type=file]{display:block;height:32px;border:none;}
+    .liste{display:flex;justify-content:center;text-align:left;} 
+    #onglets2{display:block;}
+    .Bparametres{border:inset 10px azure;}
+    .Bexport{border:inset 4px azure;}
+  </style>
+  <link rel="stylesheet" href="/ThemeCSS.css">
+  </head>
+  <body onload="Init();">
+    <div id='lesOnglets'></div>
+    <h2 >Import / Export des paramètres et données</h2>
+    <div class="Zone">
+        <div class="boldT">Liste des fichiers <br><span class='fsize12'>(Permet la sauvegarde des paramètres et données sur votre PC)</span></div>
+        <div class="form" id="liste_file" ></div>
+    </div>
+   
+    <div class="Zone">
+         <div class="boldT">Import de fichiers éditables et modifiables avec un éditeur de texte : </div>
+        <div class="fs16 L pad10">- les paramètres du routeur au format .json,<br>
+             - les fichiers de données mensuelles au format .csv,<br>
+             - les fichiers de styles au format .css
+            </div>
+        <form method='POST' onsubmit="submit_para(event);" action="#" enctype='multipart/form-data' id='upload_form'>
+          <div class="form">
+            <div class='ligne'>
+              <div class='cell'><input type='file' name='fichier_para_' id="fichier_para_"  class='bouton' accept='.json,.css'></div>
+              <input type='submit' value='Mettre à jour'  class='bouton'>
+            </div>
+            <div class="lds-dual-ring" id="attente"></div>
+          </div>
+        </form>
+        <span class='fsize12'>Après un Import de paramètres, faites un Reset  pour redémarrer avec les nouveaux.</span>
+    </div>
+    <input  class='bouton' type='button' onclick='Reset();' value='ESP32 Reset' >
+    <script>
+       
+        function Init(){
+          LoadConfig();          
+        }
+        function ImplantationConfig(){
+          SetHautBas();
+          LoadListeFile();
+        }
+        function submit_para(event){
+          GID("attente").style="visibility: visible;";
+          event.preventDefault(); //Pour Firefox
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() { 
+            if (this.readyState == 4 && this.status == 200) {
+              var retour=this.responseText;
+              console.log(retour);              
+              GID("attente").style="visibility: hidden;";
+              setTimeout(location.reload(),1000);
+            }         
+          };
+          const fileInput = GID("fichier_para_");
+          var file = fileInput.files[0];
+          var data = new FormData();
+          data.append("file", file);
+          xhttp.open('POST', adrHttpRemote + '/import', true);
+          xhttp.send(data);
+        }
+        
+        
+        function LoadListeFile(){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() { 
+            if (this.readyState == 4 && this.status == 200) {
+              var files = this.responseText.split(GS);
+              var S="";
+              for (var i=0;i<files.length-1;i++){
+                var F=files[i].split(RS);
+                S +=`<div class='ligne'><div class='cell'>${F[0]} </div><div class='cell'>${F[1]} octets </div>`;
+                S +=`<div class='cell'><a href='${adrHttpRemote}/export_file?Fichier=${F[0]}&download=${F[0]}' ><button class='bouton'>Télécharger</button></a></div>`;
+                S +=`<div class='cell'><button class='bouton' onclick='valideEfface("${F[0]}");'>Effacer</button></div></div>`;
+              }
+              GH("liste_file", S);
+            }         
+          };
+          let adr =adrHttpRemote + "/ListeFile";
+          xhttp.open('GET', adr, true);
+          xhttp.send();
+        }
+        function valideEfface(F){
+          var Conf="Confirmez l'effacement";
+          if (confirm(Conf)==true){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() { 
+              if (this.readyState == 4 && this.status == 200) {
+                location.reload();
+              }         
+            };
+         
+            let adr =adrHttpRemote + "/export_file?Fichier=" + F + "&Delete=";
+            xhttp.open('GET', adr, true);
+            xhttp.send();
+          }
+        }
+        function AdaptationSource(){};
+        function FinParaRouteur(){
+         
+        };
+        function Reset(){
+          GID("attente").style="visibility: visible;";
+            var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() { 
+                if (this.readyState == 4 && this.status == 200) {
+                  GID('BoutonsBas').innerHTML=this.responseText;
+                  GID("attente").style="visibility: hidden;";
+                  setTimeout(location.reload(),1000);
+                  setTimeout(location.reload(),10000);
+                }         
+              };
+              xhttp.open('GET', adrHttpRemote + '/restart', true);
+              xhttp.send();
+        }
+    </script>
+    <br>
+    <div id='pied'></div>
+    <br>
+    
+    
+</body></html>
+ 

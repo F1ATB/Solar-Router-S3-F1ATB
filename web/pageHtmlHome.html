@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+   
+    <title>Routeur Photovoltaïque S3 - F1ATB</title>
+    <link rel="stylesheet" href="/CommunCSS.css">
+    <link rel="stylesheet" href="/HomeCSS.css">
+    <link rel="stylesheet" href="/ThemeCSS.css">
+    <script src="/JS_Commun.js"></script>
+    <script src="/JS_Home/JS_carteTableauPuissance.js"></script>
+    <script src="/JS_Home/JS_carteTableauOuvertures.js"></script>
+    <script src="/JS_Home/JS_carteGraphEnsoleillement.js"></script>
+    <script src="/JS_Home/JS_carteGraphHistorique.js"></script>
+    <script src="/JS_Home/JS_carteGraphEnergie.js"></script>
+    <script src="/JS_Home/JS_carteJauge.js"></script>
+</head>
+
+<body onload="init();">
+    <div id="lesOnglets"></div>
+    <div id="date">DATE</div>
+    <div id="hom-zoneBoutonEdit"><span id="annuler" class="showInline edit" onclick="setMode('annuler');">❌</span>
+        <span id="valider" class="showInline edit" onclick="setMode('valider');">✅</span>
+        <span id="editer" onclick="setMode('editer');">
+            <svg width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+                style="vertical-align:middle; cursor:pointer">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+            </svg>
+        </span>
+    </div>
+    <div id="hom-zoneEditPage" class="hom-boxEdit edit" >
+        <div>
+            <span>
+                <label for="carte">Choisir une carte :</label>
+                <select name="carte" id="carte">
+                    <option value="tableauPuissance">Tableau puissances</option>
+                    <option value="tableauOuvertures">Tableau ouvertures</option>
+                    <option value="graphHistorique">Graphique historique</option>
+                    <option value="graphEnergie">Graphique énergie</option>
+                    <option value="graphJauge">Graphique jauge</option>
+                    <option value="graphEnsoleillement">Graphique ensoleillement</option>
+                    
+                </select>
+            </span>
+            <span>
+                <input type="button" value="Ajouter une carte" onclick="addCarte();">
+            </span>
+        </div>
+        <div>
+            <label for="nbColumn">Nombre de colonnes dans la page :</label>
+            <select name="nbColumn" id="nbColumn" onchange="setNbColonnes(this.value);">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+
+    </div>
+    <div id="hom-zonesContainer" ></div>
+    <div id="infoCurseur"></div>
+    <br>
+    <div id="pied" ></div>
+    
+    <script src="/JS_Home/JS_Home.js"></script>
+    
+</body>
+
+</html>

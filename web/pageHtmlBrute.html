@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="/JS_Commun.js"></script>
+  <link rel="stylesheet" href="/CommunCSS.css">
+  <style>
+    :root {
+      --brute-axes: white;
+      --brute-V: rgb(241, 9, 9);
+      --brute-I: rgb(9, 241, 113);
+    }
+
+    .ri {
+      text-align: right;
+    }
+
+    .phi {
+      background-color: #ffd;
+    }
+
+
+    .VA {
+      background-color: cyan;
+    }
+
+    .Hz,
+    .Enph {
+      background-color: #eeb;
+      ;
+    }
+
+    .titre {
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    .dataIn {
+      text-align: left;
+      overflow: hidden;
+    }
+
+    td {
+      text-align: left;
+      padding: 4px;
+    }
+
+
+
+    .Bbrut {
+      border: 8px inset azure;
+    }
+
+    .dispT {
+      display: none;
+    }
+
+    .ce {
+      text-align: center;
+      position: relative;
+    }
+
+    svg {
+      border: 10px inset azure;
+    }
+
+    #infoUxIx2,
+    #infoUxIx3,
+    #infoUxI,
+    #infoNotDef,
+    #infoLinky,
+    #infoEnphase,
+    #infoSmartG,
+    #infoHomeW,
+    #infoShellyEm,
+    #infoPmqtt {
+      display: none;
+    }
+
+
+    #DataESP32 a {
+      color: #300;
+      text-decoration: none;
+    }
+
+    .wb100 {
+      width: 100%;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    .wm550 {
+      min-width: 550px;
+    }
+
+    .gris {
+      background-color: rgba(128, 128, 128, 0.3);
+    }
+
+    .ligne0 {
+      background-color: rgba(128, 128, 128, 0.3);
+    }
+
+    .ligne1 {
+      background-color: rgba(128, 128, 128, 0.1);
+    }
+
+    .brut-graphSVG {
+      border: 1px solid grey;
+      border-radius: 4px;
+      margin: 0px;
+      touch-action: none;
+      background: linear-gradient(to bottom, #222222 0%, #444444 50%, #222222 100%);
+    }
+
+    .json-viewer {
+      font-family: monospace;
+      white-space: pre;
+      background-color: #f0f0f0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+  <link rel="stylesheet" href="/ThemeCSS.css">
+  <title>Brute</title>
+</head>
+
+<body onload="LoadConfig();">
+
+  <div id="lesOnglets"></div>
+  <div id="date">Date</div><br><br>
+
+
+
+
+  <div class="titre">Donn&eacute;es ESP32</div>
+  <div>
+    <div id="DataESP32" class="tableau w100"></div>
+  </div><br>
+  <div class="titre">Evènements</div>
+  <div>
+    <div id="BruteMessages" class="tableau w100"></div>
+  </div><br>
+  <div class="titre">Données Brutes des Sources</div>
+  <div id="BruteSources"></div>
+  <div id="pied"></div>
+
+  <!-- <script src="/ParaRouteurJS"></script> -->
+  <script src="JS_Brute.js"></script>
+
+
+
+  <br>
+</body>
+
+</html>
