@@ -43,7 +43,7 @@ function dispPara(bl) {
             if (bloc[bl].LesEntrees.length > 0) {
                 if (bloc[bl].LesEntrees[0].type) {
                     let typeEntree = bloc[bl].LesEntrees[0].type;
-                    if (typeEntree == "heure" && Value!="moyenne") {
+                    if (typeEntree == "heure" && Value!="moyenne" || typeEntree == "ActExt_Hequiv") {
                         typeInput = "time";
                         Seuil = heureDecimaleVersHM(Seuil);
                         UnitP="H:mn";

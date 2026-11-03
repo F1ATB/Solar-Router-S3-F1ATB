@@ -109,7 +109,7 @@ function bloc_Label(bl, w, h) {
                 let typeEntree = bloc[bl].LesEntrees[0].type;
                 Unit = "W";
                 if (typeEntree == "temperature") Unit = "°C";
-                if (typeEntree == "heure" ) {
+                if (typeEntree == "heure" || typeEntree == "ActExt_Hequiv") {
                     Unit = "";
                     leSeuil = heureDecimaleVersHM(parseFloat(leSeuil));
                 }

@@ -218,7 +218,7 @@ function afficher_MenuPTO(z) { //Menu choix des graphes
 
     let GOuv = '<table class="hom-graphPw-table">';
     GOuv += '<tr class="fsize10"><td>Afficher</td><td>Canal</td><td>Couleur</td></tr>';
-    let iAction=0;
+    let iAction = 0;
     for (let i = 0; i < JSD.blocs.length; i++) {
         if (JSD.blocs[i].type == "action") {
             let nom = JSD.blocs[i].Para.Nom;
@@ -230,7 +230,7 @@ function afficher_MenuPTO(z) { //Menu choix des graphes
             GOuv += '<td><input class="hom-graphPw-color" type="color" id="GrColor_' + z + '_' + numGraph + '"  value="' + couleur + '" onchange="setColorH(this)"></td>';
             GOuv += ' </tr>';
             iAction++;
-        }        
+        }
     }
     GOuv += '</table>';
     GH("GraphPw_Ouverture_" + z, GOuv);
@@ -507,26 +507,27 @@ function TraceHistorique(z) {
             }
             if (graph.type_graph == "Ouv") {
                 const action = parseInt(graph.ref1);
-               
-                LesTitres.push(Historique.lesOuvertures.BlocOuvre[action].nomAction);
-                ColorTitres.push(graph.color);
-                LesTypes.push(graph.type_graph);
-                const tableau = dureeGraph == "T10mn" ? [...Histo10mnOuverture[action]] : [...Histo48hOuverture[action]];
-                LesValeurs.push(tableau);
-                let courbe = document.createElementNS(NS, "polyline");
-                courbe.setAttribute("stroke", graph.color);
-                courbe.setAttribute("stroke-width", 1);
-                courbe.setAttribute("fill", "none");
-                let step = (x_Max - X0) / (tableau.length - 1);
-                let courbePoints = "";
-                for (let j = 0; j < tableau.length; j++) {
-                    const valeur = tableau[j];
-                    let x = X0 + j * step;
-                    let y = Y0 - valeur * 10 * dY / 100;
-                    courbePoints += `${x},${y} `;
+                if (Historique.lesOuvertures.BlocOuvre[action]) {
+                    LesTitres.push(Historique.lesOuvertures.BlocOuvre[action].nomAction);
+                    ColorTitres.push(graph.color);
+                    LesTypes.push(graph.type_graph);
+                    const tableau = dureeGraph == "T10mn" ? [...Histo10mnOuverture[action]] : [...Histo48hOuverture[action]];
+                    LesValeurs.push(tableau);
+                    let courbe = document.createElementNS(NS, "polyline");
+                    courbe.setAttribute("stroke", graph.color);
+                    courbe.setAttribute("stroke-width", 1);
+                    courbe.setAttribute("fill", "none");
+                    let step = (x_Max - X0) / (tableau.length - 1);
+                    let courbePoints = "";
+                    for (let j = 0; j < tableau.length; j++) {
+                        const valeur = tableau[j];
+                        let x = X0 + j * step;
+                        let y = Y0 - valeur * 10 * dY / 100;
+                        courbePoints += `${x},${y} `;
+                    }
+                    courbe.setAttribute("points", courbePoints);
+                    HistSvg.appendChild(courbe);
                 }
-                courbe.setAttribute("points", courbePoints);
-                HistSvg.appendChild(courbe);
             }
         }
     }

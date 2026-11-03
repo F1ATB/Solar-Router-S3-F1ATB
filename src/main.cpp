@@ -1,4 +1,4 @@
-#define VersionS3 "V1.00-beta.11"
+#define VersionS3 "V1.00-beta.12"
 
 /*
   PV Router / Routeur Photovoltaïque

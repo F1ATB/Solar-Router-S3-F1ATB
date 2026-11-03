@@ -30,11 +30,8 @@ void recupererEnsoleillement() {
     return;
   }
   SoleilActuel = Wm2[Int_Heure]; // Valeur à l'heure courante
-  if (HnextSoleil <= Int_Heure && Int_Heure < 20) {
-    HnextSoleil = Int_Heure + 4; // Retour dans 4h
-    if (HnextSoleil >= 20) {
-      HnextSoleil = 3;
-    }
+  if (HnextSoleil == Int_Heure  || HnextSoleil == 0) {
+    HnextSoleil = (Int_Heure + 4) % 24; // Retour dans 4h
     SeriePrintln("Open-Meteo : Appel");
     String METEO_URL = "http://api.open-meteo.com/v1/forecast";
     METEO_URL += "?latitude=" + String(latitude) + "&longitude=" + String(longitude);

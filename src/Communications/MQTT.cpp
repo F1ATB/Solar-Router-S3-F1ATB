@@ -31,6 +31,7 @@ String MQTTPrefixEtat = "homeassistant";
 String MQTTdeviceName = "routeur_rms";
 String TopicP = "PuissanceMaison";
 byte subMQTT = 0;
+int8_t CompteurEnvoiMQTT = 0;
 
 unsigned long previousMQTTenvoiMillis;
 unsigned long previousMQTTMillis;
@@ -207,6 +208,11 @@ void callback(char *topic, byte *payload, unsigned int length) {}
 void sendMQTTDiscoveryMsg_global() {
   clientMQTT.setBufferSize(1700);
   DeviceToDiscover("ESP32_On", "ESP32 On", "h", "duration", "2");
+
+  for (int canal = 0; canal < 4; canal++) {
+    if (Source_Temp[canal] != "tempNo")
+      DeviceToDiscover("Temperature_" + String(canal), nomTemperature[canal], "°C", "temperature", "1");
+  }
   String Prefix;
   for (int8_t source = 0; source < NB_SOURCES_DEVICE_MAX; source++) {
 
@@ -241,13 +247,21 @@ void sendMQTTDiscoveryMsg_global() {
 
 void SendDataToHomeAssistant() {
   char value[1200];
-  //  sprintf(value, "{%s", value);
-  // Info ESP32
-  float H = float(T_On_seconde) / 3600.0;
-  sprintf(value, "{\"ESP32_On\":%f", H);
-  sprintf(value, "%s}", value);
-  bool published = clientMQTT.publish(StateTopic, value);
+  bool published ;
+  CompteurEnvoiMQTT = (CompteurEnvoiMQTT + 1) % 10; // Compteur sur 10 envois pour les messages lents
+  if (CompteurEnvoiMQTT == 2) {                     // Données que l'on publie 10 fois moins rapidement
+    float H = float(T_On_seconde) / 3600.0;
+    sprintf(value, "{\"ESP32_On\":%f", H);
 
+    for (int canal = 0; canal < 4; canal++) {
+      if (temperature[canal] > -100 && Source_Temp[canal] != "tempNo") {
+        sprintf(value, "%s,\"Temperature_%s\": %.1f", value, String(canal).c_str(), temperature[canal]);
+      }
+    }
+
+    sprintf(value, "%s}", value);
+    published = clientMQTT.publish(StateTopic, value);
+  }
   JsonDocument doc;
   String Prefix;
   for (int8_t source = 0; source < NB_SOURCES_DEVICE_MAX; source++) {
